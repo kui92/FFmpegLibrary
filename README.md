@@ -136,6 +136,8 @@
     
     
     
+ 两个native方法的具体实现CSDN：http://blog.csdn.net/qq_28284547/article/details/78151635
+    
     
     
     
