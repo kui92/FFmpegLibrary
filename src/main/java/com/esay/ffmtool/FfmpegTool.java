@@ -76,14 +76,6 @@ public class FfmpegTool {
 
     public static native int cmdRun(String[] cmd);
 
-    /**
-     * 将视频解码成一帧一帧的jpg图片保存到本地
-     * @param srcPath 视频地址
-     * @param savePath 图片保存路径文件夹
-     * @param startTime
-     * @param count
-     * @return
-     */
     public static native int decodToImage(String srcPath,String savePath,int startTime,int count);
 
 
@@ -182,15 +174,6 @@ public class FfmpegTool {
         //Log.i("decodToImageCall","path:"+path+"___index:"+index);
     }
 
-    /**
-     * 将视频解码成一帧一帧的jpg图片保存到本地，同decodToImage，不过该方法带回调
-     * 每保存一幅图片都会调用decodToImageCall方法
-     * @param srcPath
-     * @param savePath
-     * @param startTime
-     * @param count
-     * @return
-     */
     public native int decodToImageWithCall(String srcPath,String savePath,int startTime,int count);
 
 
