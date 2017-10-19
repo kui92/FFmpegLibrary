@@ -20,7 +20,7 @@
   
   
   再在app的gradle文件中添加依赖
-  compile 'com.github.kui92:FFmpegLibrary:2.0'
+  compile 'com.github.kui92:FFmpegLibrary:3.0'
   
   
   
@@ -118,7 +118,7 @@
             @Override
             public void run() {
                 String path= Environment.getExternalStorageDirectory().getPath()+ File.separator+"test"+File.separator;
-                //参数说明  视频源  压缩结果 标志位 回调
+                //参数说明  视频源  压缩结果的保存目录 标志位 回调
                 FfmpegTool.getInstance(MainActivity.this).compressVideo("/storage/emulated/0/test/out.mp4", path, 2, new FfmpegTool.VideoResult() {
                     @Override
                     public void clipResult(int code, String src, String dst, boolean sucess, int tag) {
