@@ -135,6 +135,33 @@
     
     
     
+   
+    
+    3.0版本新添加了一个带jni回调的图片解码方法decodToImageWithCall，该方法与decodToImage方法功能完全一样，不过该方法有过程监听，每完成一次图片
+    的解码与保存会回调一次decodToImageCall方法（也是一个FfmpegTool类的一个public方法，供jni调用回传参数），并传回新保存图片的地址与当前是图片下标。使用方法：
+   
+    	FfmpegTool ffmpegTool=FfmpegTool.getInstance(MainActivity.this);
+     	ffmpegTool.setImageDecodeing(new FfmpegTool.ImageDecodeing() {
+            @Override
+            public void sucessOne(String path, int i) {
+                Log.i("decodToImageCall","path:"+path+"___index:"+i);
+            }
+        });
+	
+    	 public void click4(View view){
+        new Thread(){
+            @Override
+            public void run() {
+                String path= Environment.getExternalStorageDirectory().getPath()+ File.separator+"test"+File.separator;
+                String video=path+"c.mp4";
+                ffmpegTool.decodToImageWithCall(video.replaceAll(File.separator,"/")
+                        ,Environment.getExternalStorageDirectory().getPath()
+                                + File.separator+"test2"+File.separator,0,10);
+            }
+        }.start();
+    }
+    
+    
     
  两个native方法的具体实现CSDN：http://blog.csdn.net/qq_28284547/article/details/78151635
     
