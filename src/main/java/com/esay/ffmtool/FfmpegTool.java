@@ -22,11 +22,25 @@ public class FfmpegTool {
          */
         public void clipResult(int code,String src,String dst,boolean sucess,int tag);
     }
+
+    public interface ImageDecodeing{
+        public void sucessOne(String path,int i);
+    }
+
+
     private static FfmpegTool instance;
 
     private Activity activity;
+    private ImageDecodeing imageDecodeing;
 
 
+    public ImageDecodeing getImageDecodeing() {
+        return imageDecodeing;
+    }
+
+    public void setImageDecodeing(ImageDecodeing imageDecodeing) {
+        this.imageDecodeing = imageDecodeing;
+    }
 
     private  FfmpegTool(){
 
@@ -58,8 +72,18 @@ public class FfmpegTool {
         System.loadLibrary("avfilter");
         System.loadLibrary("jxffmpegrun");
     }
+
+
     public static native int cmdRun(String[] cmd);
 
+    /**
+     * 将视频解码成一帧一帧的jpg图片保存到本地
+     * @param srcPath 视频地址
+     * @param savePath 图片保存路径文件夹
+     * @param startTime
+     * @param count
+     * @return
+     */
     public static native int decodToImage(String srcPath,String savePath,int startTime,int count);
 
 
@@ -140,6 +164,35 @@ public class FfmpegTool {
         Log.i("compressVideo","result:"+result);
         return result;
     }
+
+    /**
+     * 解析图片过程中jni的回调方法
+     * @param path
+     * @param index
+     */
+    public void decodToImageCall(final  String path,final int index){
+        if(imageDecodeing!=null){
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageDecodeing.sucessOne(path,index);
+                }
+            });
+        }
+        //Log.i("decodToImageCall","path:"+path+"___index:"+index);
+    }
+
+    /**
+     * 将视频解码成一帧一帧的jpg图片保存到本地，同decodToImage，不过该方法带回调
+     * 每保存一幅图片都会调用decodToImageCall方法
+     * @param srcPath
+     * @param savePath
+     * @param startTime
+     * @param count
+     * @return
+     */
+    public native int decodToImageWithCall(String srcPath,String savePath,int startTime,int count);
+
 
     public void relase(){
         this.activity=null;
