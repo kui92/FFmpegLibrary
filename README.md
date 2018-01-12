@@ -18,7 +18,6 @@
 		}
 	}
   
-  
   再在app的gradle文件中添加依赖
   compile 'com.github.kui92:FFmpegLibrary:3.2'
   
